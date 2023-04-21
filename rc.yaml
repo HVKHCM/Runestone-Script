@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: openmp
+  labels:
+    name: openmp
+spec:
+  replicas: 1
+  selector:
+    app: stest
+#    type: openmp
+  template:
+    metadata:
+      labels:
+        app: stest
+#        type: openmp
+    spec:
+      containers:
+        - name: stest
+          image: docker.cs.stolaf.edu:443/c-kubed/test
+          command: [ "/bin/bash", "-c", "--" ]
+          args: [ "while true; do sleep 30; done;" ]
+          ports:
+            - containerPort: 1013
+          imagePullPolicy: IfNotPresent

@@ -1,0 +1,10 @@
+Warning: Permanently added 'mpi-spmd-worker-0.mpi-spmd-worker,10.42.0.5' (ECDSA) to the list of known hosts.
+Warning: Permanently added 'mpi-spmd-worker-1.mpi-spmd-worker,10.32.0.3' (ECDSA) to the list of known hosts.
+Greetings from process #0 of 8 on mpi-spmd-worker-0
+Greetings from process #5 of 8 on mpi-spmd-worker-1
+Greetings from process #6 of 8 on mpi-spmd-worker-0
+Greetings from process #7 of 8 on mpi-spmd-worker-1
+Greetings from process #1 of 8 on mpi-spmd-worker-1
+Greetings from process #3 of 8 on mpi-spmd-worker-1
+Greetings from process #2 of 8 on mpi-spmd-worker-0
+Greetings from process #4 of 8 on mpi-spmd-worker-0

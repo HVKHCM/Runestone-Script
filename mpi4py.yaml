@@ -1,0 +1,52 @@
+apiVersion: kubeflow.org/v2beta1
+kind: MPIJob
+metadata:
+  name: {{ jobname }}
+#  namespace: test-mpi
+spec:
+  slotsPerWorker: {{ slotsPerWorker }}
+#  cleanPodPolicy: Running
+  mpiReplicaSpecs:
+    Launcher:
+      replicas: 1
+      template:
+        spec:
+          securityContext:
+            runAsUser: 0
+            runAsGroup: 1002
+          volumes:
+          - name: runestone-pv
+            persistentVolumeClaim:
+              claimName: runestone-pvc 
+          containers:
+          - image: modified/openmpi:v0.0.1
+            name: mpi-test-master
+            command: [ "/bin/sh" ]
+            args: ["-c", "cd /home/mpiuser/work/; {{ run }}"]
+            imagePullPolicy: IfNotPresent
+            volumeMounts:
+              - mountPath: /home/mpiuser/work
+                name: runestone-pv
+#          imagePullSecrets:
+#          - name: regcred
+    Worker:
+      replicas: {{ numberOfWorker }}
+      template:
+        spec:
+          volumes:
+          - name: runestone-pv
+            persistentVolumeClaim:
+              claimName: runestone-pvc
+          containers:
+          - image: modified/openmpi:v0.0.1
+            name: mpi-test-worker
+            imagePullPolicy: IfNotPresent
+            resources:
+              limits:
+                cpu: 1
+            volumeMounts:
+              - mountPath: /home/mpiuser/work
+                name: runestone-pv
+#  slotsPerWorker: 32
+#          imagePullSecrets:
+#          - name: regcred

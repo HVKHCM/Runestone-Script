@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: stest-deployment
+#  namespace: stest
+  labels:
+    app: stest
+    type: openmp
+#    inuse: nah
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: stest
+  template:
+    metadata:
+      labels:
+        app: stest
+        type: openmp
+        inuse: nah
+    spec:
+      containers:
+      - name: stest
+        image: docker.cs.stolaf.edu:443/c-kubed/test
+        command: [ "/bin/sh" ]
+        args: ["-c", "while true; do sleep 30; done;"]
+        imagePullPolicy: IfNotPresent
+        volumeMounts:
+        - mountPath: /work
+          name: runestone-pv
+        resources:
+          limits:
+            cpu: 2
+      volumes:
+      - name: runestone-pv
+        persistentVolumeClaim:
+          claimName: runestone-pvc
+      imagePullSecrets:
+      - name: regcred
